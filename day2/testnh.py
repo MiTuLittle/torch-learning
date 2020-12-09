@@ -28,22 +28,32 @@ class Net(torch.nn.Module):
 net = Net(n_feature=1, n_hidden=10, n_output=1)
 print(net)
 # optimizer = torch.optim.SGD(net.parameters(), lr=0.5)  # 训练工具，梯度下降
-optimizer = torch.optim.Adam(net.parameters(), lr=0.2, betas=(0.9, 0.99))
+optimizer = torch.optim.Adam(net.parameters(), lr=1e-2, betas=(0.9, 0.99))
 loss_func = torch.nn.MSELoss()  # 损失函数
-plt.ion()
-plt.show()
+# plt.ion()
+# plt.show()
 for t in range(200):
     prediction = net(x)  # Net类继承自Module，Module类中定义类__call__方法，因此，net(x)经过__call__方法转到类forward方法
     loss = loss_func(prediction, y)  # 计算预测值和实际值之间的误差
     optimizer.zero_grad()  # 清空上一步的残余，更新参数值
     loss.backward()  # 误差反向传播，计算参数更新值
     optimizer.step()  # 将参数更新值施加到net的parameters
-    if t % 5 == 0:
-        plt.cla()
-        plt.scatter(x.data.numpy(), y.data.numpy())
-        plt.plot(x.data.numpy(), prediction.data.numpy(), 'r-', lw=1.5)
-        plt.text(0.5, 0, 'Loss=%.4f' % loss.data.numpy(), fontdict={'size': 20, 'color': 'red'})
-        plt.pause(0.1)
+    print(t, loss.item())
+    # if t % 5 == 0:
+    #     plt.cla()
+    #     plt.scatter(x.data.numpy(), y.data.numpy())
+    #     plt.plot(x.data.numpy(), prediction.data.numpy(), 'r-', lw=1.5)
+    #     plt.text(0.5, 0, 'Loss=%.4f' % loss.data.numpy(), fontdict={'size': 20, 'color': 'red'})
+    #     plt.pause(0.1)
+print(prediction - x)
+print(31 >> 2)
 
-plt.ioff()
-plt.show()
+
+# if __name__ == '__main__':
+#     test_array = ''
+#     test_image = ''
+#     from PIL import Image
+#
+#     test_1 = Image.open(test_image)
+#     plt.imshow
+#     plt.show()
